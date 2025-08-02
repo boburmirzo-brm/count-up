@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: "http://asadullo.uz/nasiya/"
+    baseURL: "https://asadullo.uz/nasiya/"
 })
 
 api.interceptors.request.use((config) => {
