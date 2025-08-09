@@ -44,7 +44,7 @@ const DetialPartner = () => {
       label: (
         <span className=" block" onClick={handleShow}>
           O'zgartirish
-        </span>
+        </span> 
       ),
       key: "0",
     },
