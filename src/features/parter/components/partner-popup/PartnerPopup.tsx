@@ -72,6 +72,7 @@ const PartnerPopup: React.FC<Props> = ({
       });
     }
   };
+  
   return (
     <>
       <Modal
