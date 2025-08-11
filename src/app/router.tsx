@@ -5,6 +5,8 @@ import GuestRoute from "@/shared/components/router/GuestRoute";
 import { Role } from "@/shared/const";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
+import ProductChild from "@/features/product/pages/ProductChild";
+import DetailProduct from "@/features/product/pages/detail/DetailProduct";
 // import MainLayout from "@/layout/MainLayout";
 // import PartnerDetial from "@/features/parter/pages/detail/DetialPartner"
 
@@ -77,6 +79,13 @@ const AppRouter = () => {
         {
           path: "product",
           element: <Products />,
+          children: [
+            {
+              index: true,
+              element: <ProductChild />
+            },
+            { path: ":id", element: <DetailProduct /> }
+          ]
         },
         {
           path: "/:partner/:id",
@@ -84,19 +93,19 @@ const AppRouter = () => {
           children: [
             {
               index: true,
-              element: <PartnerProduct/>,
+              element: <PartnerProduct />,
             },
             {
               path: "payments",
-              element: <PartnerPayments/>
+              element: <PartnerPayments />
             },
             {
               path: "sell",
-              element: <PartnerSell/>
+              element: <PartnerSell />
             },
             {
               path: "buy",
-              element: <PartnerBuy/>
+              element: <PartnerBuy />
             },
           ],
         },
