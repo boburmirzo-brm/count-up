@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 type FieldType = {
   title: string;
-  code?: string;
+  productCode?: string;
   buyPrice: number;
   quantity: number;
   categoryId: string;
@@ -21,18 +21,19 @@ interface Props {
 }
 
 export const ProductCreate: FC<Props> = React.memo(({ handleCancel }) => {
-  const {id} = useParams()
-  
-  const {createBuy} = useBuy()
+  const { id } = useParams()
+
+  const { createBuy } = useBuy()
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     values.partnerId = id
     const product = {
       ...values,
       quantity: Number(values.quantity),
       buyPrice: Number(values.buyPrice),
+      categoryId: "45c13e4d-c9a1-4f5a-b397-259da77d8fe7"
     }
     createBuy.mutate(product)
-    
+
   };
 
   return (
@@ -52,9 +53,10 @@ export const ProductCreate: FC<Props> = React.memo(({ handleCancel }) => {
             <Input />
           </Form.Item>
 
-          <Form.Item<FieldType> label="Mahsulot kodi" name="code">
+          <Form.Item<FieldType> label="Mahsulot kodi" name="productCode">
             <Input />
           </Form.Item>
+
           <Form.Item<FieldType>
             label="Kategoriya"
             name="categoryId"
