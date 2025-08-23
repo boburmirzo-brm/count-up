@@ -6,10 +6,11 @@ import { NumericFormat } from "react-number-format";
 import { usePayment } from "../../service/usePayment";
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   id: string;
   previousData?: any;
   role: string;
+  paymentId?: string;
 }
 
 type FieldType = {
@@ -17,10 +18,10 @@ type FieldType = {
   amaunt?: string;
 };
 
-const PaymentPopup: FC<Props> = ({ children, id, previousData, role }) => {
+const PaymentPopup: FC<Props> = ({ children, id, previousData, role, paymentId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { createPayment } = usePayment();
-  const { isPending } = createPayment;
+  const { createPayment, updatePayment } = usePayment();
+  const isLoading = createPayment.isPending || updatePayment.isPending;
 
   const showModal = useCallback(() => {
     setIsModalOpen(true);
@@ -33,17 +34,22 @@ const PaymentPopup: FC<Props> = ({ children, id, previousData, role }) => {
   const handleSubmit = (values: FieldType) => {
     const amount = Number(values.amaunt?.replace(/\s/gi, ""));
     let payment = {
+      id: paymentId,
       amaunt: amount,
       comment: values.comment,
       partnerId: id,
       paymentType: role === Role.customer ? PaymentType.in : PaymentType.out,
+      ...(previousData?.id ? { id: previousData.id } : {})
     };
-    createPayment.mutate(payment, {
-      onSuccess:()=>{
-        handleCancel()
-      }
-    });
+
+    if (previousData?.id) {
+      updatePayment.mutate(payment);
+    } else {
+      createPayment.mutate(payment);
+    }
+    handleCancel();
   };
+  
   return (
     <>
       <span onClick={showModal}>{children}</span>
@@ -87,7 +93,7 @@ const PaymentPopup: FC<Props> = ({ children, id, previousData, role }) => {
 
             <Form.Item label={null}>
               <Button
-                loading={isPending}
+                loading={isLoading}
                 className="w-full"
                 type="primary"
                 htmlType="submit"

@@ -24,5 +24,17 @@ export const usePayment = () => {
     },
   });
 
-  return { createPayment, getPayments };
+  const updatePayment = useMutation({
+    mutationFn: (body: any) =>
+      {
+        const {id, ...paymentData} = body
+        return api.patch(`payment/${id}`, paymentData).then((res) => res.data)
+      },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [payment] });
+      queryClient.invalidateQueries({ queryKey: [partner] });
+    }
+  })
+
+  return { createPayment, getPayments, updatePayment };
 };

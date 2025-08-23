@@ -34,7 +34,7 @@ const Partner = ({ role }: { role: string }) => {
     <Box>
       <Badge count={data?.total} style={{ backgroundColor: '#000' }}>
         <Title className={"mb-4"}>
-          {role === "customer" ? "Mijozlar" : "Sotuvchilar"} ro'yhati
+          {role === "customer" ? "Mijozlar" : "Sotuvchilar"} ro'yxati
         </Title>
       </Badge>
       <Navigation />
