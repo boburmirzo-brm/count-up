@@ -2,7 +2,7 @@ import { MoreOutlined } from "@ant-design/icons";
 import { Button, Dropdown, type MenuProps } from "antd";
 import React from "react";
 
-const ProductOptions = ({ item }: { item: any }) => {
+const ProductOptions = () => {
     // const { updateProduct, deleteProduct } = useProduct();
 
     // const handleDelete = () =>
