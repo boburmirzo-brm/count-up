@@ -22,7 +22,7 @@ const ProductCardView: FC<Props> = ({ data, loading }) => {
                 </Link>
               </div>
               <div>
-                <ProductOptions item={item} />
+                <ProductOptions  />
               </div>
             </div>
             <div className="flex justify-between my-3">
