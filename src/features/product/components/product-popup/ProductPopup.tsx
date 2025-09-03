@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Input, Modal, Form, InputNumber, Select } from "antd";
 import { useProduct } from "../../service/useProduct";
 import TextArea from "antd/es/input/TextArea";
-import { useQueryClient } from "@tanstack/react-query";
+// import { useQueryClient } from "@tanstack/react-query";
 
 type FieldType = {
     title?: string;
@@ -27,7 +27,7 @@ const ProductPopup: React.FC<Props> = ({
     const { createProduct, updaProduct, getCategory } = useProduct();
     const { isPending } = createProduct;
     const { data } = getCategory({})
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
 
     const handleSubmit = (values: FieldType) => {
         const product = {
