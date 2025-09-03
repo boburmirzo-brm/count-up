@@ -27,7 +27,7 @@ const CardView: FC<Props> = ({ data, loading }) => {
               </Link>
             </div>
             <div>
-               <PartnerOptions item={item} />
+              <PartnerOptions item={item} />
             </div>
           </div>
           <div className="flex justify-between my-3">
@@ -39,8 +39,8 @@ const CardView: FC<Props> = ({ data, loading }) => {
                     item?.balance < 0
                       ? "crimson"
                       : item?.balance > 0
-                      ? "green"
-                      : "grey",
+                        ? "green"
+                        : "grey",
                 }}
               >
                 {item?.balance.fprice()}
