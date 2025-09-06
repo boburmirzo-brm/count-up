@@ -1,4 +1,4 @@
-import { product } from "@/shared/keys";
+import { product, category } from "@/shared/keys";
 import { api } from "@/shared/lib/axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -17,25 +17,19 @@ export const useProduct = () => {
       queryFn: () => api.get("product", { params }).then((res) => res.data),
       enabled: !!params.name,
     });
+
   const getProducts = (params: IParams) =>
     useQuery({
       queryKey: [product, params],
       queryFn: () => api.get("product", { params }).then((res) => res.data),
     });
 
-  const getOneProduct = (id: string) => (
+  const getOneProduct = (id: string) =>
     useQuery({
       queryKey: [product, id],
-      queryFn: () => api.get(`product/${id}`).then(res => res.data)
-    })
-  )
+      queryFn: () => api.get(`product/${id}`).then((res) => res.data),
+    });
 
-  const getOneCategory = (id: string) => (
-    useQuery({
-      queryKey: [product, id],
-      queryFn: () => api.get(`category/${id}`).then(res => res.data)
-    })
-  )
 
 
   const createProduct = useMutation({
@@ -47,18 +41,42 @@ export const useProduct = () => {
   });
 
   const updaProduct = useMutation({
-    mutationFn: ({ body, id }: { body: any, id: string }) => api.patch(`product/${id}`, body).then(res => res.data),
+    mutationFn: ({ body, id }: { body: any; id: string }) =>
+      api.patch(`product/${id}`, body).then((res) => res.data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [product] })
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: [product] });
+    },
+  });
+
+  const deleteProduct = useMutation({
+    mutationFn: (id: string) =>
+      api.delete(`product/${id}`).then((res) => res.data),
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: [product] }); 
+      queryClient.invalidateQueries({ queryKey: [product, id] });
+    },
+  });
 
   const getCategory = (params: IParams) =>
     useQuery({
-      queryKey: [product, params],
+      queryKey: [category, params], 
       queryFn: () => api.get("category", { params }).then((res) => res.data),
     });
 
+  const getOneCategory = (id: string) =>
+    useQuery({
+      queryKey: [category, id],
+      queryFn: () => api.get(`category/${id}`).then((res) => res.data),
+    });
 
-  return { getProducts, getSearchProducts, createProduct, updaProduct, getCategory, getOneProduct, getOneCategory };
+  return {
+    getProducts,
+    getOneProduct,
+    getSearchProducts,
+    createProduct,
+    updaProduct,
+    deleteProduct,
+    getCategory,
+    getOneCategory,
+  };
 };

@@ -23,12 +23,12 @@ const Navigation: FC<Props> = ({ data }) => {
                         </Title>
                     </div>
                 </Badge>
-
                 <div>
                     <Button onClick={handleShow} type="primary">
                         <PlusOutlined />
                     </Button>
                 </div>
+
             </div>
             {isModalOpen && (
                 <ProductPopup

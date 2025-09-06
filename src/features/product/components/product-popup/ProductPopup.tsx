@@ -26,7 +26,12 @@ const ProductPopup: React.FC<Props> = ({
 }) => {
     const { createProduct, updaProduct, getCategory } = useProduct();
     const { isPending } = createProduct;
-    const { data } = getCategory({})
+
+    const { data: categories } = getCategory({});
+
+    console.log(previousData, "Categories");
+
+
     const queryClient = useQueryClient();
 
     const handleSubmit = (values: FieldType) => {
@@ -45,7 +50,7 @@ const ProductPopup: React.FC<Props> = ({
                 { id: previousData?.id, body: product },
                 {
                     onSuccess: () => {
-                        // queryClient.invalidateQueries(["products"]);
+                        queryClient.invalidateQueries({ queryKey: ["product"] });
                         handleCancel();
                     },
                 }
@@ -130,7 +135,7 @@ const ProductPopup: React.FC<Props> = ({
                         <Select
                             style={{ width: '100%' }}
                             allowClear
-                            options={Array.isArray(data) ? data.map((item: any) => ({
+                            options={Array.isArray(categories) ? categories.map((item: any) => ({
                                 value: item.id,
                                 label: item.name,
                             })) : []}

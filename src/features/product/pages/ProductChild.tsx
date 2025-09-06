@@ -1,13 +1,17 @@
 import React from 'react'
 import { useOutletContext } from 'react-router-dom'
 import ProductWrapper from '../components/product-wrapper/ProductWrapper'
+import Navigation from '../components/navigation/Navigation'
 
 const ProductChild = () => {
-    const object: any = useOutletContext()
+    const { data, isFetching }: any = useOutletContext()
+    console.log(data);
+
 
     return (
         <>
-            <ProductWrapper data={object?.data} loading={object?.isFetching} />
+            <Navigation data={data} />
+            <ProductWrapper data={data} loading={isFetching} />
         </>
     )
 }
