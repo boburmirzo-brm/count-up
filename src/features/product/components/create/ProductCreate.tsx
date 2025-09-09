@@ -33,7 +33,6 @@ export const ProductCreate: FC<Props> = React.memo(({ handleCancel }) => {
       categoryId: "45c13e4d-c9a1-4f5a-b397-259da77d8fe7"
     }
     createBuy.mutate(product)
-
   };
 
   return (

@@ -10,7 +10,6 @@ interface Props {
   id: string;
   previousData?: any;
   role: string;
-  paymentId?: string;
 }
 
 type FieldType = {
@@ -18,7 +17,7 @@ type FieldType = {
   amaunt?: string;
 };
 
-const PaymentPopup: FC<Props> = ({ children, id, previousData, role, paymentId }) => {
+const PaymentPopup: FC<Props> = ({ children, id, previousData, role }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { createPayment, updatePayment } = usePayment();
   const isLoading = createPayment.isPending || updatePayment.isPending;
@@ -34,22 +33,22 @@ const PaymentPopup: FC<Props> = ({ children, id, previousData, role, paymentId }
   const handleSubmit = (values: FieldType) => {
     const amount = Number(values.amaunt?.replace(/\s/gi, ""));
     let payment = {
-      id: paymentId,
       amaunt: amount,
       comment: values.comment,
       partnerId: id,
       paymentType: role === Role.customer ? PaymentType.in : PaymentType.out,
-      ...(previousData?.id ? { id: previousData.id } : {})
+      id: previousData?.id
     };
-
-    if (previousData?.id) {
-      updatePayment.mutate(payment);
-    } else {
-      createPayment.mutate(payment);
+    if (!payment.id) {
+      delete payment.id
     }
-    handleCancel();
+    if (previousData?.id) {
+      updatePayment.mutate(payment, { onSuccess: () => handleCancel() });
+    } else {
+      createPayment.mutate(payment, { onSuccess: () => handleCancel() });
+    }
   };
-  
+
   return (
     <>
       <span onClick={showModal}>{children}</span>
